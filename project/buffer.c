@@ -1,5 +1,6 @@
 #include "buffer.h"
 #include "semaphore.h"
+#include <pthread.h> 
 
 /* the buffer */
 buffer_item buffer[BUFFER_SIZE];
@@ -28,6 +29,7 @@ int insert_item(buffer_item item)
 		
 		signal(mutex);
 		signal(empty);
+		
 	}while (0==0);
 	
 	return 0;
