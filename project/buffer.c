@@ -1,7 +1,6 @@
 #include "buffer.h"
 
-int insert_item(buffer_item item);
-int remove_item(buffer_item *item);
+
 
 /* the buffer */
 buffer_item buffer[BUFFER_SIZE];
@@ -19,5 +18,10 @@ int remove_item(buffer_item *item)
 	placing it in item
 	return 0 if successful, otherwise
 	return -1 indicating an error condition */
+	return 0;
+}
+
+int initialize(buffer_item *item)
+{
 	return 0;
 }
