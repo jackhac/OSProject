@@ -11,7 +11,7 @@ void *producer(void *param)
    while (0==0) 
    {
       /* sleep for a random period of time */
-      sleep(rand());
+      //sleep(rand());
       /* generate a random number */
       item = rand();
       if (insert_item(item))
@@ -26,7 +26,7 @@ void *consumer(void *param)
    while (0==0) 
    {
       /* sleep for a random period of time */
-      sleep(rand());
+      //sleep(rand());
       if (remove_item(&item))
          fprintf(stderr, "report error condition");
       else

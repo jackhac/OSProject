@@ -33,10 +33,10 @@ int main(int argc, char *argv[])
 	
 	
 	//5. Sleep 
-	sleep(rand());
+	sleep(args[2]);
 	
 	
 	//6. Exit 
-	
+	return 0;
 	
 }
