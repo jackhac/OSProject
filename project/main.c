@@ -5,6 +5,8 @@
 
 #include "buffer.h"
 
+int initialize_buffer();
+
 int main(int argc, char *argv[]) 
 {
 	//initialize variables
@@ -21,20 +23,16 @@ int main(int argc, char *argv[])
 	args[2]=atoi(argv[3]);
 	
 	//2. Initialize buffer 
-	
-	
+	initialize_buffer();
 	
 	//3. Create producer thread(s) 
-	
 	
 	
 	//4. Create consumer thread(s) 
 	
 	
-	
 	//5. Sleep 
 	sleep(args[2]);
-	
 	
 	//6. Exit 
 	return 0;
