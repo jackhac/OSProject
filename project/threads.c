@@ -1,97 +1,94 @@
-#include <stdlib.h> /* required for rand() */
+#include <stdlib.h> 
 #include <stdio.h>
 #include <pthread.h>
 #include <semaphore.h>
+
 #include "buffer.h"
 #include "threads.h"
 
 int insert_item(buffer_item item);
 int remove_item(buffer_item *item);
-
 void sleep(int a);
 
-/* The mutex lock */
+//mutux lock
 pthread_mutex_t mutex;
 
-/* the semaphores */
+//semaphores
 sem_t full, empty;
 
-/* Producer Thread */
+//producer thread
 void *producer(void *param) 
 {
    buffer_item item;
 
    while(true) 
    {
-      /* sleep for a random period of time */
-      int rNum = rand() % 6;
-      sleep(rNum);
+      //sleep for a random period of time
+      //set it for between 1-6
+      sleep(rand() % 6);
 
-      /* generate a random number */
+      //generate random num
       item = rand();
 
-      /* acquire the empty lock */
+      //wait(empty)
       sem_wait(&empty);
-      /* acquire the mutex lock */
+      //lock mutex
       pthread_mutex_lock(&mutex);
-
-      if(insert_item(item)) {
-         fprintf(stderr, " Producer report error condition\n");
+	  //insert item into buffer or throw error
+      if(insert_item(item)) 
+	  {
+         fprintf(stderr, "Producer report error condition\n");
       }
-      else {
+      else 
+	  {
          printf("producer produced %d\n", item);
       }
-      /* release the mutex lock */
+      //unlock mutex
       pthread_mutex_unlock(&mutex);
-      /* signal full */
+      //signal(full)
       sem_post(&full);
    }
 }
 
-/* Consumer Thread */
+//consumer thread
 void *consumer(void *param) 
 {
    buffer_item item;
 
    while(true) 
    {
-      /* sleep for a random period of time */
-      int rNum = rand() % 6;
-      sleep(rNum);
+      //sleep for a random period of time
+      //set it for between 1-6
+      sleep(rand() % 6);
 
-      /* aquire the full lock */
+      //wait(full)
       sem_wait(&full);
-      /* aquire the mutex lock */
+      //mutex lock
       pthread_mutex_lock(&mutex);
-      if(remove_item(&item)) {
+      if(remove_item(&item)) 
+	  {
          fprintf(stderr, "Consumer report error condition\n");
       }
-      else {
+      else 
+	  {
          printf("consumer consumed %d\n", item);
       }
-      /* release the mutex lock */
+      //unlock mutex
       pthread_mutex_unlock(&mutex);
-      /* signal empty */
+      //signal empty
       sem_post(&empty);
    }
 }
 
-
+//initialze sephmores and mutex
 void initializeData() 
 {
-
-   /* Create the mutex lock */
+   //create the mutex lock
    pthread_mutex_init(&mutex, NULL);
 
-   /* Create the full semaphore and initialize to 0 */
+   //create the full semaphore and initialize to 0
    sem_init(&full, 0, 0);
 
-   /* Create the empty semaphore and initialize to BUFFER_SIZE */
+   //create the empty semaphore and initialize to BUFFER_SIZE
    sem_init(&empty, 0, BUFFER_SIZE);
-
-   /* Get the default attributes */
-  // pthread_attr_init(&attr);
-
-   /* init buffer */
-  // counter = 0;
 }

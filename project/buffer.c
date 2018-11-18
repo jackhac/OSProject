@@ -1,15 +1,15 @@
 #include "buffer.h"
 
-/* the buffer */
+//the buffer
 buffer_item buffer[BUFFER_SIZE];
 
 int counter=0;
 
-/* Add an item to the buffer */
+//insert item into buffer
 int insert_item(buffer_item item) 
 {
-   /* When the buffer is not full add the item
-      and increment the counter*/
+   //when buffer isnt full then add item to counter and increment counter
+	//if not return error
    if(counter < BUFFER_SIZE) 
    {
       buffer[counter] = item;
@@ -18,16 +18,15 @@ int insert_item(buffer_item item)
    }
    else 
    { 
-	  /* Error the buffer is full */
       return -1;
    }
 }
 
-/* Remove an item from the buffer */
+//remove item from buffer
 int remove_item(buffer_item *item) 
 {
-   /* When the buffer is not empty remove the item
-      and decrement the counter */
+   //when buffer isnt empty then delete item from buffer and decrement counter
+	//if not return error
    if(counter > 0) 
    {
       *item = buffer[(counter-1)];
@@ -36,7 +35,6 @@ int remove_item(buffer_item *item)
    }
    else 
    { 
-	  /* Error buffer empty */
       return -1;
    }
 }

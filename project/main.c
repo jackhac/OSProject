@@ -1,47 +1,55 @@
-#include <stdlib.h> /* required for rand() */
+#include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
 
 #include "buffer.h"
 #include "threads.h"
 
-void *producer(void *param); /* the producer thread */
-void *consumer(void *param); /* the consumer thread */
+void *producer(void *param);
+void *consumer(void *param);
 
 void initializeData();
 void sleep(int a);
 
 int main(int argc, char *argv[]) 
 {
+	//initialize variables
+	int sleepTime; 
+    int producerNum; 
+    int consumerNum;
+	pthread_t thread_id;
 	int i;
 	
-	pthread_t tid;       //Thread ID
-	//pthread_attr_t attr; //Set of thread attributes
+	if (argc!=4)
+	{
+		fprintf(stderr, "usage: project int1 int2 int3\n");
+		return 1; 
+	}
 	
-	// 1. Get command line arguments  argv[1],argv[2],argv[3]
-	int mainSleepTime = atoi(argv[1]); 
-    int numProd = atoi(argv[2]); 
-    int numCons = atoi(argv[3]); 
+	//get command line arguments  argv[1],argv[2],argv[3]
+	sleepTime = atoi(argv[1]); 
+    producerNum = atoi(argv[2]); 
+    consumerNum = atoi(argv[3]); 
 	
-	// 2. Initialize buffer 
+	//initialize buffer 
 	initializeData();
 	
-	//3. Create producer thread(s) 
-	for(i = 0; i < numProd; i++) 
+	//create producer threads
+	for(i = 0; i < producerNum; i++) 
 	{
-      pthread_create(&tid,NULL,producer,NULL);
+      pthread_create(&thread_id,NULL,producer,NULL);
     }
 	
-	// 4. Create consumer thread(s) 
-	for(i = 0; i < numCons; i++) 
+	//create consumer threads 
+	for(i = 0; i < consumerNum; i++) 
 	{
-      pthread_create(&tid,NULL,consumer,NULL);
+      pthread_create(&thread_id,NULL,consumer,NULL);
     }
 	
-	// 5. Sleep 
-	sleep(mainSleepTime);
+	//sleep 
+	sleep(sleepTime);
 	
-	// 6. Exit 
+	//exit 
 	printf("Exit the program\n");
    	exit(0);
 }
